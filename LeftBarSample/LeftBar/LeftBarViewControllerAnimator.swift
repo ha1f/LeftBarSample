@@ -8,8 +8,11 @@
 
 import UIKit
 
+
+
 // Q: What's the benefit of snapShotView?
 
+/// - seealso: [Customizing the Transition Animations](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/CustomizingtheTransitionAnimations.html)
 final class LeftBarAnimationController: NSObject, UIViewControllerTransitioningDelegate {
     struct Config {
         var shouldMoveBaseViewController: Bool
@@ -21,8 +24,8 @@ final class LeftBarAnimationController: NSObject, UIViewControllerTransitioningD
         }
     }
     
-    private let interactor = LeftBarViewControllerInteractor()
-    private let _config = LeftBarAnimationController.Config(shouldMoveBaseViewController: true)
+    private let interactiveAnimator = LeftBarInteractiveAnimator()
+    private let _config = Config(shouldMoveBaseViewController: true)
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return LeftBarDismissAnimator(config: _config)
@@ -32,13 +35,15 @@ final class LeftBarAnimationController: NSObject, UIViewControllerTransitioningD
         return LeftBarPresentAnimator(config: _config)
     }
     
-//    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return nil
 //        return interactor
-//    }
-//
-//    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    }
+
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return nil
 //        return interactor
-//    }
+    }
     
 }
 
@@ -117,10 +122,5 @@ private final class LeftBarPresentAnimator: NSObject, UIViewControllerAnimatedTr
     }
 }
 
-final class LeftBarViewControllerInteractor: UIPercentDrivenInteractiveTransition {
-    
-    private func hoge() {
-        
-    }
-    
+final class LeftBarInteractiveAnimator: UIPercentDrivenInteractiveTransition {
 }

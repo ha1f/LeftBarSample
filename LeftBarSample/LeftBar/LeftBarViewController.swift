@@ -16,7 +16,7 @@ final class LeftBarViewController: UIViewController {
     init(contentViewController: UIViewController) {
         _contentViewController = contentViewController
         super.init(nibName: nil, bundle: nil)
-        modalPresentationStyle = .custom
+        modalPresentationStyle = .overCurrentContext
     }
     
     @available(*, unavailable)
@@ -41,9 +41,24 @@ final class LeftBarViewController: UIViewController {
             ])
         _contentViewController.didMove(toParent: self)
         
+        // setup shadow for content
+        // seealso: https://ringsbell.blog.fc2.com/blog-entry-494.html
+        _contentViewController.view.layer.masksToBounds = false
+        _contentViewController.view.layer.shadowOffset = CGSize(width: 4, height: 0)
+        _contentViewController.view.layer.shadowOpacity = 0.8
+        _contentViewController.view.layer.shadowRadius = 8
+        _contentViewController.view.layer.shadowPath = UIBezierPath(rect: _contentViewController.view.bounds).cgPath
+        
         _tapToCloseGestureRecognizer.addTarget(self, action: #selector(didTappedOutside))
         _tapToCloseGestureRecognizer.delegate = self
         view.addGestureRecognizer(_tapToCloseGestureRecognizer)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // update shadow for content
+        _contentViewController.view.layer.shadowPath = UIBezierPath(rect: _contentViewController.view.bounds).cgPath
     }
     
     @objc
