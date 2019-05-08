@@ -17,6 +17,7 @@ final class LeftBarAnimationController: NSObject, UIViewControllerTransitioningD
     struct Config {
         var shouldMoveBaseViewController: Bool
         var duration: TimeInterval
+        var contentViewShadowOpacity: Float = 0.5
         
         init(shouldMoveBaseViewController: Bool, duration: TimeInterval = 0.3) {
             self.shouldMoveBaseViewController = shouldMoveBaseViewController
@@ -25,17 +26,18 @@ final class LeftBarAnimationController: NSObject, UIViewControllerTransitioningD
     }
     
     let interactiveDismissAnimator = UIPercentDrivenInteractiveTransition()
-    private let _config = Config(shouldMoveBaseViewController: true)
+    let config = Config(shouldMoveBaseViewController: false)
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return LeftBarDismissAnimator(config: _config)
+        return LeftBarDismissAnimator(config: config)
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return LeftBarPresentAnimator(config: _config)
+        return LeftBarPresentAnimator(config: config)
     }
     
     func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        // Present animation is not interactive
         return nil
     }
 
@@ -71,13 +73,17 @@ private final class LeftBarDismissAnimator: NSObject, UIViewControllerAnimatedTr
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: { [_config] in
             fromViewController.view.transform = CGAffineTransform(translationX: -translationX, y: 0)
             toViewController.view.alpha = 1.0
+            fromViewController.contentView.layer.shadowOpacity = 0.0
             if _config.shouldMoveBaseViewController {
                 toViewController.view.transform = .identity
             }
-        }, completion: { completed in
+        }, completion: { [_config] completed in
             let success = !transitionContext.transitionWasCancelled
             if success {
                 fromViewController.view.removeFromSuperview()
+            } else {
+                // Only this is not recovered automatically.
+                fromViewController.contentView.layer.shadowOpacity = _config.contentViewShadowOpacity
             }
             transitionContext.completeTransition(success)
         })
@@ -114,6 +120,7 @@ private final class LeftBarPresentAnimator: NSObject, UIViewControllerAnimatedTr
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: { [_config] in
             toViewController.view.transform = .identity
             fromViewController.view.alpha = 0.3
+            toViewController.contentView.layer.shadowOpacity = _config.contentViewShadowOpacity
             if _config.shouldMoveBaseViewController {
                 fromViewController.view.transform = CGAffineTransform(translationX: translationX, y: 0)
             }
