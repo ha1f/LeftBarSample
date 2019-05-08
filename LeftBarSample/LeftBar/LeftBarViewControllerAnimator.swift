@@ -24,7 +24,7 @@ final class LeftBarAnimationController: NSObject, UIViewControllerTransitioningD
         }
     }
     
-    private let interactiveAnimator = LeftBarInteractiveAnimator()
+    let interactiveDismissAnimator = LeftBarDismissInteractiveAnimator()
     private let _config = Config(shouldMoveBaseViewController: true)
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -37,12 +37,10 @@ final class LeftBarAnimationController: NSObject, UIViewControllerTransitioningD
     
     func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return nil
-//        return interactor
     }
 
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return nil
-//        return interactor
+        return interactiveDismissAnimator
     }
     
 }
@@ -129,5 +127,8 @@ private final class LeftBarPresentAnimator: NSObject, UIViewControllerAnimatedTr
     }
 }
 
-final class LeftBarInteractiveAnimator: UIPercentDrivenInteractiveTransition {
+final class LeftBarDismissInteractiveAnimator: UIPercentDrivenInteractiveTransition {
+    override func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+        super.startInteractiveTransition(transitionContext)
+    }
 }
