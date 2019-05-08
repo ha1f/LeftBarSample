@@ -77,8 +77,11 @@ private final class LeftBarDismissAnimator: NSObject, UIViewControllerAnimatedTr
                 toViewController.view.transform = .identity
             }
         }, completion: { completed in
-            fromViewController.view.removeFromSuperview()
-            transitionContext.completeTransition(completed)
+            let success = !transitionContext.transitionWasCancelled
+            if success {
+                fromViewController.view.removeFromSuperview()
+            }
+            transitionContext.completeTransition(success)
         })
     }
 }
@@ -117,7 +120,11 @@ private final class LeftBarPresentAnimator: NSObject, UIViewControllerAnimatedTr
                 fromViewController.view.transform = CGAffineTransform(translationX: translationX, y: 0)
             }
         }, completion: { completed in
-            transitionContext.completeTransition(true)
+            let success = !transitionContext.transitionWasCancelled
+            if !success {
+                toViewController.view.removeFromSuperview()
+            }
+            transitionContext.completeTransition(success)
         })
     }
 }
