@@ -13,6 +13,9 @@
 		E90DDDC52281D59F00F512E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90DDDC42281D59F00F512E7 /* Assets.xcassets */; };
 		E90DDDC82281D59F00F512E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90DDDC62281D59F00F512E7 /* LaunchScreen.storyboard */; };
 		E90DDDD32281D59F00F512E7 /* LeftBarSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DDDD22281D59F00F512E7 /* LeftBarSampleTests.swift */; };
+		E90DDDDF2281D5B800F512E7 /* LeftBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DDDDE2281D5B800F512E7 /* LeftBarViewController.swift */; };
+		E90DDDE12281D78500F512E7 /* MenuListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DDDE02281D78500F512E7 /* MenuListViewController.swift */; };
+		E90DDDE52281D7C900F512E7 /* LeftBarViewControllerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DDDE42281D7C900F512E7 /* LeftBarViewControllerAnimator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,9 @@
 		E90DDDCE2281D59F00F512E7 /* LeftBarSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LeftBarSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90DDDD22281D59F00F512E7 /* LeftBarSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftBarSampleTests.swift; sourceTree = "<group>"; };
 		E90DDDD42281D59F00F512E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E90DDDDE2281D5B800F512E7 /* LeftBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftBarViewController.swift; sourceTree = "<group>"; };
+		E90DDDE02281D78500F512E7 /* MenuListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListViewController.swift; sourceTree = "<group>"; };
+		E90DDDE42281D7C900F512E7 /* LeftBarViewControllerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftBarViewControllerAnimator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +83,7 @@
 		E90DDDBC2281D59D00F512E7 /* LeftBarSample */ = {
 			isa = PBXGroup;
 			children = (
+				E90DDDDD2281D5A700F512E7 /* LeftBar */,
 				E90DDDBD2281D59D00F512E7 /* AppDelegate.swift */,
 				E90DDDBF2281D59D00F512E7 /* ViewController.swift */,
 				E90DDDC12281D59D00F512E7 /* Main.storyboard */,
@@ -94,6 +101,24 @@
 				E90DDDD42281D59F00F512E7 /* Info.plist */,
 			);
 			path = LeftBarSampleTests;
+			sourceTree = "<group>";
+		};
+		E90DDDDD2281D5A700F512E7 /* LeftBar */ = {
+			isa = PBXGroup;
+			children = (
+				E90DDDDE2281D5B800F512E7 /* LeftBarViewController.swift */,
+				E90DDDE42281D7C900F512E7 /* LeftBarViewControllerAnimator.swift */,
+				E90DDDE32281D7A800F512E7 /* Content */,
+			);
+			path = LeftBar;
+			sourceTree = "<group>";
+		};
+		E90DDDE32281D7A800F512E7 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				E90DDDE02281D78500F512E7 /* MenuListViewController.swift */,
+			);
+			path = Content;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,8 +222,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E90DDDE52281D7C900F512E7 /* LeftBarViewControllerAnimator.swift in Sources */,
+				E90DDDDF2281D5B800F512E7 /* LeftBarViewController.swift in Sources */,
 				E90DDDC02281D59D00F512E7 /* ViewController.swift in Sources */,
 				E90DDDBE2281D59D00F512E7 /* AppDelegate.swift in Sources */,
+				E90DDDE12281D78500F512E7 /* MenuListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

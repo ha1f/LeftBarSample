@@ -10,11 +10,22 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet private var button: UIButton!
+    
+    let animator = LeftBarAnimationController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        button.addTarget(self, action: #selector(didTappedButton), for: .touchUpInside)
     }
-
+    
+    @objc
+    private func didTappedButton() {
+        let viewController = LeftBarViewController(contentViewController: MenuListViewController(nibName: nil, bundle: nil))
+        viewController.transitioningDelegate = animator
+        self.present(viewController, animated: true, completion: nil)
+    }
 
 }
 
