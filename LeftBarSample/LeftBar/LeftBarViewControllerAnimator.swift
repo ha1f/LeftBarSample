@@ -70,7 +70,7 @@ private final class LeftBarDismissAnimator: NSObject, UIViewControllerAnimatedTr
         let initialFrame = transitionContext.initialFrame(for: fromViewController)
         let translationX = initialFrame.width * fromViewController.coverRatio
         
-        UIView.animate(withDuration: _config.duration, animations: { [_config] in
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: { [_config] in
             fromViewController.view.transform = CGAffineTransform(translationX: -translationX, y: 0)
             toViewController.view.alpha = 1.0
             if _config.shouldMoveBaseViewController {
@@ -113,7 +113,7 @@ private final class LeftBarPresentAnimator: NSObject, UIViewControllerAnimatedTr
         let translationX = finalFrame.width * toViewController.coverRatio
         toViewController.view.transform = CGAffineTransform(translationX: -translationX, y: 0)
         
-        UIView.animate(withDuration: _config.duration, animations: { [_config] in
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: { [_config] in
             toViewController.view.transform = .identity
             fromViewController.view.alpha = 0.3
             if _config.shouldMoveBaseViewController {
