@@ -12,8 +12,6 @@ class ViewController: UIViewController {
 
     @IBOutlet private var button: UIButton!
     
-    let animator = LeftBarAnimationController()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,7 +21,6 @@ class ViewController: UIViewController {
     @objc
     private func didTappedButton() {
         let viewController = LeftBarViewController(contentViewController: MenuListViewController(nibName: nil, bundle: nil))
-        viewController.transitioningDelegate = animator
         self.present(viewController, animated: true, completion: nil)
     }
 

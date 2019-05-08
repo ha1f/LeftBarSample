@@ -17,11 +17,13 @@ final class LeftBarViewController: UIViewController {
         recognizer.maximumNumberOfTouches = 1
         return recognizer
     }()
+    private let _animationController = LeftBarAnimationController()
     
     init(contentViewController: UIViewController) {
         _contentViewController = contentViewController
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .overCurrentContext
+        transitioningDelegate = _animationController
     }
     
     @available(*, unavailable)
@@ -68,25 +70,31 @@ final class LeftBarViewController: UIViewController {
         _contentViewController.view.layer.shadowPath = UIBezierPath(rect: _contentViewController.view.bounds).cgPath
     }
     
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        _animationController.interactiveDismissAnimator.finish()
+    }
+    
+    func startToDismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+    }
+    
     @objc
     private func didTappedOutside() {
-        self.dismiss(animated: true, completion: nil)
-        (self.transitioningDelegate as? LeftBarAnimationController)?.interactiveDismissAnimator.finish()
+        dismiss(animated: true, completion: nil)
     }
     
     private var _isLastDirectionDismiss: Bool = true
     private var _lastTranslation: CGPoint = .zero
     @objc
     private func handlePanGestureRecognizer(_ gestureRecognizer: UIPanGestureRecognizer) {
-        guard let interactiveAnimator = (self.transitioningDelegate as? LeftBarAnimationController)?.interactiveDismissAnimator else {
-            return
-        }
+        let interactiveAnimator = _animationController.interactiveDismissAnimator
 
         switch gestureRecognizer.state {
         case .began:
             gestureRecognizer.setTranslation(.zero, in: view)
             _lastTranslation = .zero
-            self.dismiss(animated: true, completion: nil)
+            self.startToDismiss(animated: true, completion: nil)
         case .changed:
             let translation = gestureRecognizer.translation(in: view)
             let percentage = max(0, -translation.x / (view.bounds.width * coverRatio))
@@ -98,12 +106,6 @@ final class LeftBarViewController: UIViewController {
             }
             _lastTranslation = translation
         case .ended:
-            let translation = gestureRecognizer.translation(in: view)
-            if translation.x < _lastTranslation.x {
-                _isLastDirectionDismiss = true
-            } else if translation.x > _lastTranslation.x {
-                _isLastDirectionDismiss = false
-            }
             if _isLastDirectionDismiss {
                 interactiveAnimator.finish()
             } else {
